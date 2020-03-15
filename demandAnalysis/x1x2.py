@@ -3,6 +3,10 @@ import datetime
 import os
 from math import log, inf
 from jdt import Jdt
+from time import sleep
+
+list_dir = os.listdir('../data/')
+len_list_dir = len(list_dir)
 
 def validate():
   one_day = datetime.timedelta(1)
@@ -36,9 +40,10 @@ def lossFile(id, x, which_end):
   acc = 0
   acc_weight = 0
   for i, value in enumerate(availables):
-    weight = 1 - i / x
-    acc += value * weight
-    acc_weight += weight
+    if i > 6.4:
+      weight = 1 - i / x
+      acc += value * weight
+      acc_weight += weight
   acc /= acc_weight
   try:
     if ground_truth:
@@ -51,15 +56,14 @@ def lossFile(id, x, which_end):
     return 5
 
 def overallLoss(x, which_end, msg = ''):
-  list_dir = os.listdir('../data/')
-  jdt = Jdt(len(list_dir), msg=msg, UPP=128)
+  jdt = Jdt(len_list_dir, msg=msg, UPP=128)
   acc = 0
   for filename in list_dir:
     jdt.acc()
     acc += lossFile(filename.split('.')[0], x, which_end)
   jdt.complete()
-  with open('x1x2_result.csv', 'a') as f:
-    print(x, which_end, acc, sep = ',', file = f)
+  with open('x1x2_result_2.csv', 'a') as f:
+    print(x, which_end, acc / len_list_dir, sep = ',', file = f)
   return acc
 
 class Walker:
@@ -87,8 +91,8 @@ class Walker:
       self.step *= -.6
 
 def main():
-  for i in range(1, 364):
-    overallLoss(i, 1)
+  for i in range(46, 300):
+    overallLoss(i, 1, str(i))
     overallLoss(i, -1)
 
 main()
