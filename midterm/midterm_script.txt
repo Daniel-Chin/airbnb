@@ -1,0 +1,40 @@
+Just like what we learnt from the progresso soup case, in order to optimize pricing, we first need to model the demand curve. Only when we have a model of the demand can we solve for the optimal pricing. For example, in the class we used the price elasticity of demand, and that is a feature of the demand curve. 
+
+Now, to model demand, we need data on sales. In airbnb's case, we need data on the volume of booking. It's a question of: how many people are willing to book a listing given what features and at what price. Now we have the data on the features of listings. We have the data on prices. We don't have the data on "how many people". We are missing, the historical data on sales. But we need sales, or volume of booking, to model the demand curve. So, 
+
+[click]
+
+How to estimate booking volume? Well, how about looking at the # of reviews? 
+
+[click]
+
+Airbnb guests can only leave a review for a place after living in it. Surely the more reviews there are for a place, the higher its booking volume. That is generally true, but there is a bias. 
+
+[click]
+
+The guest is more likely to leave a review, if the place turns out to be surprisingly good or surprisingly bad. The probability of leaving a review is correlated with the features of the listing. Therefore, using the # of reviews will lead us to miss out on those "silent but high-volume transactions". 
+
+[click]
+
+The second problem is more fundamental. We need a parameter of the probability of leaving a review. For example, say we see a listing that had 5 reviews last month. The question is, how many days did people book tihs place in the last month? According to linear regression, we just multiply 5 by a number. But what is that number? That number is decided by the probability of leaving a review. We cannot simply run a regression to find that number, because again, we don't have the data on sales. We will return to this question later. 
+
+[click]
+
+Now let's look at the availablity calendar and see if we can back out the booking volume from there. The texts are small, becasue you don't need to read them, just look at the colors. Orange is available for booking. Blue is unavailable. We can see, on this listing, there's more blue in the beginning, and more orange in the later months. Now I claim, that the days in the beginning are unavailable because they already booked out, at the time when the data were recorded. A calendar day can be unavailable for one of two reasons. Either it is already booked by another guest, or the host closed it off. How can we tell them apart? well, if hyperthetically we see all Saturdays on this calendar are unavailable, and the rest are available, we would know the Saturdays are probability closed off by the host. On the other hand, in this calendar, we know these blue days are sales because there is a trend going from blue to ornage. Down here is the norm, and up here is the sales. In conclusion, we can estimate sales by the difference in availablity between the near future and the far future. 
+
+[click]
+
+Now let's look at more lisitngs. This one is available on everyday. So what's happening here? [pause] there is no sales. Nobody is booking this listing at all, at least when the data were recorded. Now, 
+
+[click]
+
+the next one is a bit trickier. Every day is unavailable. 
+[pause]
+Do we think it's super popular and every day is booked out? Or do we think it's a zombie lisitng, the place is just unavailable throughout the months? How can we tell? Luckily, we have the # of reviews to break the case for us. If this place is super popular, there will almost certainly be a large number of reviews. If this place is unavailable, it's impossible to have reviews. 
+
+[click]
+
+So, in summary, the # of reviews, and the availablity trend, really help each other. The # of reviews tells us what situation [up] this one is, and conversely, the availablity trend can let us pin down the probability of leaving a review. Remember the parameter we need for # of reviews to work? We can now solve for that parameter, because the availablity analysis will give us sales estimation in number of days. 
+
+Entire story: [imrpovise]
+
