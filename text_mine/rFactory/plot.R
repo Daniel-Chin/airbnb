@@ -1,13 +1,3 @@
-## Make wordcloud
-# install.packages("wordcloud")
-library(wordcloud)
-load('summary_ok.terms.rda')
-popular.terms <- filter(ok.terms,n > 5000)
-par(mar=c(0,0,0,0))
-wordcloud(popular.terms$Terms,popular.terms$n,colors=brewer.pal(8,"Dark2"),scale=c(
-  3,.1
-))
-
 # Topic Modeling
 ## load results (so you don't have to run the algorithm)
 # load('lda.summary.rda')
