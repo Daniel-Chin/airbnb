@@ -2,8 +2,8 @@ import csv
 from jdt import Jdt
 import pickle
 
-X1 = 6
-X2 = 12
+X1 = [9, 39, 135, 258, 291]
+X2 = 93
 
 def predict(id, x, which_end):
   with open(f'../data/{id}.csv', 'r') as f:
@@ -24,11 +24,11 @@ def predict(id, x, which_end):
 
 def oneListing(id, c):
   buffer = [id]
-  probability_unavailable = 1 - predict(id, X1, 1)
   probability_closed = 1 - predict(id, X2, -1)
-  buffer.append(probability_unavailable)
+  probability_unavailable = [1 - predict(id, x1, 1) for x1 in X1]
   buffer.append(probability_closed)
-  buffer.append(probability_unavailable - probability_closed)
+  buffer.extend(probability_unavailable)
+  buffer.extend([x - probability_closed for x in probability_unavailable])
   c.writerow(buffer)
 
 def main():
@@ -37,7 +37,12 @@ def main():
   jdt = Jdt(len(all_id), UPP = 128)
   with open('../data2/calendar_estimate.csv', 'w', newline='') as f:
     c = csv.writer(f)
-    c.writerow(['id', 'probability_unavailable', 'probability_closed', 'occupancy_rate'])
+    c.writerow([
+      'id', 
+      'probability_closed', 
+      *[f'probability_unavailable_{x}' for x in X1], 
+      *[f'occupancy_rate_{x}' for x in X1], 
+    ])
     [(oneListing(x, c), jdt.acc()) for x in all_id]
   jdt.complete()
   print('ok')

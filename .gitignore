@@ -1,6 +1,9 @@
-*/__pycache__/
+**/__pycache__/
 __pycache__/
 Occupancy Model.pdf
 data/
 raw/
 data2/
+data_mar/
+!data2/Final_occupancy_estimation.csv
+*.zip
