@@ -2,3 +2,5 @@ Dong, Amy
 Gonzalez, Cynthia
 Leong, Carin Jin-Yi
 How did you get the booking rate?
+
+We need two scrape_dates for calendar. We need panel. 
